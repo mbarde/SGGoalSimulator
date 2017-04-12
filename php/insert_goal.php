@@ -1,11 +1,16 @@
 <?php
 $servername = "localhost";
-$username = "root";
-$password = "";
+$username = "matze";
+$password = "password";
 $dbname = "soccer_game";
 
-$posX = htmlspecialchars($_POST["posX"]) * 100;
-$posY = htmlspecialchars($_POST["posY"]) * 100;
+$posX = rand(0, 100);
+$posY = rand(0, 100);
+
+if ( isset($_POST["posX"]) and isset($_POST["posY"]) ) {
+        $posX = htmlspecialchars($_POST["posX"]) * 100;
+        $posY = htmlspecialchars($_POST["posY"]) * 100;
+} 
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 
