@@ -14,5 +14,13 @@ $(document).ready( function() {
 			}
 		);
 	});
+	
+	$('#btnMiss').click( function() {
+		$.post("php/insert_goal.php", { posX: -0.01, posY: -0.01 },
+			function(response) {
+				$('#spanLog').html(response);
+			}
+		);
+	});
 
 });
