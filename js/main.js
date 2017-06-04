@@ -1,6 +1,29 @@
-$(document).ready( function() {
+function setIsBallOnSpot(isBallOnSpot) {
+	$.post("php/set_is_ball_on_spot.php", { isBallOnSpot: isBallOnSpot },
+		function(response) {
+			getIsBallOnSpot();
+		}
+	);		
+}
 
-	$('#imgGoal').click( function(event) {
+function getIsBallOnSpot() {
+	$.post("php/get_is_ball_on_spot.php",
+		function(response) {
+			$('#btnSetBallOnSpot').attr('isBallOnSpot', response);
+			if (response == 1) {
+				$('#btnSetBallOnSpot').text('Set ball away from spot');
+			} else {
+				$('#btnSetBallOnSpot').text('Set ball on spot');
+			}
+		}
+	);
+}
+
+$(document).ready( function() {
+	
+	getIsBallOnSpot();
+
+	$('#imgGoal').click( function(event) {		
 		var offset = $(this).offset();
     	var posX = (event.pageX - offset.left) / $(this).width();
     	var posY = 1 - ((event.pageY - offset.top) / $(this).height());
@@ -10,7 +33,8 @@ $(document).ready( function() {
 
 		$.post("php/insert_goal.php", { posX: posX, posY: posY },
 			function(response) {
-				$('#spanLog').html(response);
+				$('#spanLog').html(response);				
+				setIsBallOnSpot(false);
 			}
 		);
 	});
@@ -22,5 +46,12 @@ $(document).ready( function() {
 			}
 		);
 	});
-
+	
+	$('#btnSetBallOnSpot').click( function() {
+		if ($('#btnSetBallOnSpot').attr('isBallOnSpot') == 1) {			
+			setIsBallOnSpot( false );
+		} else {
+			setIsBallOnSpot( true );		
+		}
+	});
 });
